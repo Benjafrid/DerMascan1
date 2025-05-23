@@ -1,0 +1,4 @@
+###
+GET http://localhost:3000/usuarios/usuario HTTP/1.1
+Content-Type: application/json
+Host: print-me-ten.vercel.app
