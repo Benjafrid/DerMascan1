@@ -1,0 +1,1 @@
+import dbconfig from '../dbconfig.js';

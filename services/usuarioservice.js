@@ -2,25 +2,6 @@ import {config} from '../dbconfig.js';
 import pkg from 'pg';
 const { Client } = pkg;
 
-const getUsuarioByEmail = async (mail) => {
-    const client = new Client(config);
-    await client.connect();
-
-    try {
-        const { rows } = await client.query(
-            "SELECT * FROM usuario WHERE mail = $1",
-            [mail]
-        );
-        if (rows.length < 1) return null;
-
-        await client.end();
-        return rows[0];
-    } catch (error) {
-        await client.end();
-        throw error;
-    }
-};
-
 const getAllUsuario = async () => {
     const client = new Client(config); 
     await client.connect();
@@ -36,8 +17,27 @@ const getAllUsuario = async () => {
     }
 };
 
-const getUsuarioById = async(id) => {
-    const client = new Client(config);
-    const query = 'SELECT * FROM usuario WHERE id = $1';
-}
+const createUsuario = async (usuario) => {
+  const client = new Client(config);
+  try {
+    await client.connect();
 
+    const query = `INSERT INTO users (nombre, mail, password, apellido, id_foto) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+    const values = [usuario.nombre, usuario.mail, usuario.password, usuario.apellido, usuario.id_foto];
+    
+    const { rows } = await client.query(query, values);
+    return rows[0];    
+    
+  } catch (error) {
+    console.error(' Error al crear usuario:', error);
+    throw error;
+  } finally {
+    await client.end();
+  }
+};
+
+
+export default {
+    getAllUsuario,
+    createUsuario
+}

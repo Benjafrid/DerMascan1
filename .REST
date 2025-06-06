@@ -1,4 +1,21 @@
 ###
-GET http://localhost:3000/usuarios/usuario HTTP/1.1
+GET http://localhost:3000/usuarios/usuario/usuario HTTP/1.1
+
 Content-Type: application/json
-Host: print-me-ten.vercel.app
+
+###
+POST http://localhost:3000/usuarios/usuario/foto HTTP/1.1
+
+###
+POST http://localhost:3000/usuarios/createusuario HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre": "Juan",
+    "apellido": "Pérez",
+    "password": "123456",
+    "mail": "juanperez@gmail.com"
+}
+
+###
+POST http://localhost:3000/usuarios/usuario/foto HTTP/1.1
