@@ -9,4 +9,5 @@ const response = fetch(linkAI, { //preguntarle al facha de este link
 });
 
 const hola = await response.json();
-//no hay funcion de fridman
+//no hay funcion de fridman 
+//y necesito link del facha 
