@@ -12,9 +12,9 @@ const __dirname = dirname(__filename);
 const uploadDir = join(__dirname, "../uploads");
 
 // Crear carpeta uploads si no existe
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+//if (!fs.existsSync(uploadDir)) {
+  //fs.mkdirSync(uploadDir, { recursive: true });
+//}
 
 app.use('/uploads', express.static(uploadDir));
 app.use(express.json());
