@@ -19,7 +19,7 @@ Content-Type: application/json
 
 ###
 POST http://localhost:3000/usuarios/usuario/foto HTTP/1.1
-Content-Type: 
+Content-Type: Content-Type: application/json
 
 {
     "fotos": "base64_encoded_image_string"

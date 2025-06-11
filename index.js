@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from 'path';
 import fs from 'fs';
 import usuariorouter from './router/usuariorouter.js';
-import { log } from 'console';
+
 
 const app = express();
 const __filename = fileURLToPath(import.meta.url);
@@ -12,9 +12,9 @@ const __dirname = dirname(__filename);
 const uploadDir = join(__dirname, "../uploads");
 
 // Crear carpeta uploads si no existe
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+//if (!fs.existsSync(uploadDir)) {
+  //fs.mkdirSync(uploadDir, { recursive: true });
+//}
 
 app.use('/uploads', express.static(uploadDir));
 app.use(express.json());
