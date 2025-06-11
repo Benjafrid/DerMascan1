@@ -17,8 +17,17 @@
         "dotenv": "^16.5.0",
         "express": "^4.21.2",
         "jwt-decode": "^4.0.0",
-        "multer": "^2.0.0",
+        "multer": "^2.0.1",
         "path": "^0.12.7",
         "pg": "^8.16.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Benjafrid/DerMascan1.git"
+    },
+    "keywords": [],
+    "bugs": {
+        "url": "https://github.com/Benjafrid/DerMascan1/issues"
+    },
+    "homepage": "https://github.com/Benjafrid/DerMascan1#readme"
 }

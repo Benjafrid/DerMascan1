@@ -3,11 +3,11 @@ import { Request, Response } from 'express'
 linkAI = 'https://crespo-ia.vercel.app'
 
 
-const response = fetch(linkAI, { //preguntarle al facha de este link
+const response = fetch(linkdelaAI, { //preguntarle al facha de este link
     method: 'POST',
     body: req.file
 });
 
-const hola = await response.json();
-//no hay funcion de fridman 
-//y necesito link del facha 
+const foto = await response.json();
+//no hay funcion de fridman. Que la funcion suba las fotos con cloudinary
+//necesito link de crespo (IA)
