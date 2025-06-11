@@ -37,7 +37,7 @@ const upload = multer({
 });
 
 // Rutas
-router.post("/usuario/foto", upload.single('foto'), usuariocontrollers.subirFoto);
+router.post("/usuario/foto", usuariocontrollers.subirFoto);
 router.get("/usuario/usuario", usuariocontrollers.GetUsuario);
 router.post("/createusuario", usuariocontrollers.createUsuario);
 

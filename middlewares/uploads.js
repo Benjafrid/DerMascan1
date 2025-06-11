@@ -1,7 +1,11 @@
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { Client } from 'pg';
+import pkg from 'pg';
+import { config } from 'dotenv';
+
+
+const { Client } = pkg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -12,7 +16,7 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, `${uniqueSuffix}-${file.originalname}`); // Nombre único para evitar conflictos
+    cb(null, `${uniqueSuffix}-${file.originalname}`); // Nombre único para evitar problemas 
   }
 });
 
@@ -31,8 +35,7 @@ const upload = multer({
 });
 
 export const guardarFotoEnDB = async (base64) => {
-  const client = new Client({
-  });
+  const client = new Client(config);
 
   try {
     await client.connect();
@@ -51,6 +54,4 @@ export const guardarFotoEnDB = async (base64) => {
   }
 };
 
-
-// Exportar el objeto upload como predeterminado
 export default upload;
