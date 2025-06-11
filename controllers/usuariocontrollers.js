@@ -1,5 +1,5 @@
-import usuarioservice from "../services/usuarioservice.js";
-import {guardarFotoEnDB} from '../uploads';
+import usuarioservice from '../services/usuarioservice.js';
+import {guardarFotoEnDB} from '../middlewares/uploads.js';
 
 const GetUsuario = async (_, res) => {
  try{
@@ -48,28 +48,33 @@ const GetUsuario = async (_, res) => {
  };
 
 
-const subirFoto = async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ message: "No se subió ningún archivo" });
-        }
+ const subirFoto = async (req, res) => {
+   try {
+     if (!req.file) {
+       return res.status(400).json({ message: "No se subió ningún archivo" });
+     }
+ 
+     const { filename } = req.file;
+     const url = `http://localhost:3000/uploads/${filename}`;
+ 
+     // Puedes guardar solo el nombre o también la URL en la base de datos
+     const fotoGuardada = await guardarFotoEnDB(filename, url); // si modificas tu función
+ 
+     res.status(200).json({
+       message: "Foto subida exitosamente",
+       file: {
+         name: filename,
+         url,
+         saved: fotoGuardada // lo que devuelva tu lógica de guardado
+       }
+     });
+   } catch (error) {
+     console.error("Error al subir la foto:", error.message);
+     res.status(500).json({ message: "Error al subir la foto", error: error.message });
+   }
+ };
 
-        // Obtener información del archivo subido
-        const { filename, path: filePath } = req.file;
-
-        const fotoGuardada = await guardarFotoEnDB(filename, filePath);
-
-        // Responder al cliente
-        res.status(200).json({
-            message: "Foto subida exitosamente",
-            file: fotoGuardada
-        });
-    } catch (error) {
-        console.error("Error al subir la foto:", error.message);
-        res.status(500).json({ message: "Error al subir la foto", error: error.message });
-    }
-};
-
+ 
  
 export default {
     GetUsuario,

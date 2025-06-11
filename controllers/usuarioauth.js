@@ -1,1 +1,1 @@
-import dbconfig from '../dbconfig.js';
+import dbconfig from '../../dbconfig.js';
