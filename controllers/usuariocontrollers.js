@@ -47,33 +47,28 @@ const GetUsuario = async (_, res) => {
 
  };
 
-
+ 
  const subirFoto = async (req, res) => {
-   try {
-     if (!req.file) {
-       return res.status(400).json({ message: "No se subió ningún archivo" });
-     }
- 
-     const { filename } = req.file;
-     const url = `http://localhost:3000/uploads/${filename}`;
- 
-     // Puedes guardar solo el nombre o también la URL en la base de datos
-     const fotoGuardada = await guardarFotoEnDB(filename, url); // si modificas tu función
- 
-     res.status(200).json({
-       message: "Foto subida exitosamente",
-       file: {
-         name: filename,
-         url,
-         saved: fotoGuardada // lo que devuelva tu lógica de guardado
-       }
-     });
-   } catch (error) {
-     console.error("Error al subir la foto:", error.message);
-     res.status(500).json({ message: "Error al subir la foto", error: error.message });
-   }
- };
-
+    try {
+      if (!req.file) {
+        return res.status(400).json({ message: "No se subió ningún archivo" });
+      }
+  
+      const filePath = path.join(__dirname, 'uploads', req.file.filename);
+      const fileBuffer = await fs.readFile(filePath);
+      const base64 = fileBuffer.toString('base64');
+  
+      const fotoGuardada = await guardarFotoEnDB(base64);
+  
+      res.status(200).json({
+        message: "Foto subida y guardada como base64 exitosamente",
+        foto: fotoGuardada,
+      });
+    } catch (error) {
+      console.error("Error al subir la foto:", error.message);
+      res.status(500).json({ message: "Error al subir la foto", error: error.message });
+    }
+  };
  
  
 export default {

@@ -1,8 +1,7 @@
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-
-// Obtener la ruta del archivo actual
+import { Client } from 'pg';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -31,18 +30,27 @@ const upload = multer({
   limits: { fileSize: 10 * 1024 * 1024 } // Límite de 10 MB por archivo
 });
 
+export const guardarFotoEnDB = async (base64) => {
+  const client = new Client({
+  });
 
-export const guardarFotoEnDB = async (filename, url) => {
+  try {
+    await client.connect();
 
-  console.log(`Guardando foto: ${filename} con URL: ${url}`);
+    const result = await client.query(
+      'INSERT INTO foto (fotos) VALUES ($1) RETURNING *',
+      [base64]
+    );
 
-  // Devuelve un objeto simulado
-  return {
-    filename,
-    url,
-    savedAt: new Date()
-  };
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error al guardar la foto en la base de datos:', error.message);
+    throw error;
+  } finally {
+    await client.end();
+  }
 };
+
 
 // Exportar el objeto upload como predeterminado
 export default upload;
