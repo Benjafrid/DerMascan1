@@ -60,7 +60,7 @@ const subirFoto = async (req, res) => {
 
         const fotoGuardada = await guardarFotoEnDB(base64);
         
-        linkAI = 'https://crespo-ia.vercel.app'
+        linkAI = 'https://dermascan1.vercel.app/usuarios/createusuario'
 
 
         const response = fetch(linkdelaAI, { //preguntarle al facha de este link
