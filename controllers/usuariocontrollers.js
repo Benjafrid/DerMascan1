@@ -59,21 +59,24 @@ const subirFoto = async (req, res) => {
         const base64 = fileBuffer.toString('base64');
 
         const fotoGuardada = await guardarFotoEnDB(base64);
-        
-        linkAI = 'https://dermascan1.vercel.app/usuarios/createusuario'
+        //frid aca empieza lo mio
+        const linkAI = 'https://dermascan1.vercel.app/usuarios/createusuario';
 
-
-        const response = fetch(linkdelaAI, { //preguntarle al facha de este link
+        const response = await fetch(linkAI, {
             method: 'POST',
-            body: base64
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                imagen: base64,
+                diametro: "12",     // valores fijos de prueba
+                color: "Marrón",
+                registro: false
+            })
+            
         });
+        //frid aca termina 
 
-        //res.status(200).json({
-        //    message: "Foto subida y guardada como base64 exitosamente",
-        //    foto: fotoGuardada,
-        //});
-
-        
     } catch (error) {
         console.error("Error al subir la foto:", error.message);
         res.status(500).json({ message: "Error al subir la foto", error: error.message });
