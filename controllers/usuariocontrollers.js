@@ -18,7 +18,7 @@ const GetUsuario = async (_, res) => {
 
 const createUsuario = async (req, res) => {
     try {
-        const usuario = req.body;
+        const usuario = req.body; //esto va a recibir lo que mande del front
         console.log("Datos del usuario recibido:", usuario);
 
         // Validación de datos
@@ -59,23 +59,6 @@ const subirFoto = async (req, res) => {
         const base64 = fileBuffer.toString('base64');
 
         const fotoGuardada = await guardarFotoEnDB(base64);
-        //frid aca empieza lo mio
-        const linkAI = 'https://dermascan1.vercel.app/usuarios/createusuario';
-
-        const response = await fetch(linkAI, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                imagen: base64,
-                diametro: "12",     // valores fijos de prueba
-                color: "Marrón",
-                registro: false
-            })
-            
-        });
-        //frid aca termina 
 
     } catch (error) {
         console.error("Error al subir la foto:", error.message);
