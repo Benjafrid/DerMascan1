@@ -54,4 +54,5 @@ export const guardarFotoEnDB = async (base64) => {
   }
 };
 
+
 export default upload;
