@@ -54,7 +54,7 @@ const subirFoto = async (req, res) => {
     const { fotos } = req.body;
 
     if (!fotos || typeof fotos !== 'string') {
-      return res.status(400).json({ message: "No se subió ningún archivo" });
+  return res.status(400).json({ message: "No se subió ningún archivo" });
     }
 
     const base64 = fotos;
