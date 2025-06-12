@@ -39,7 +39,7 @@ export const guardarFotoEnDB = async (base64) => {
 
   try {
     await client.connect();
-    console.log("Datos recibidos en subirFoto:", req.body);
+
     const result = await client.query(
       'INSERT INTO foto (fotos) VALUES ($1) RETURNING *',
       [base64]
