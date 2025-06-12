@@ -47,38 +47,42 @@ const updateUsuario = async (req, res) => {
 
 };
 
-
 const subirFoto = async (req, res) => {
-    try {
-        if (!req.file) {
-            return res.status(400).json({ message: "No se subió ningún archivo" });
-        }
 
-        const filePath = path.join(__dirname, 'uploads', req.file.filename);
-        const fileBuffer = await fs.readFile(filePath);
-        const base64 = fileBuffer.toString('base64');
+    console.log("Datos recibidos en subirFoto:", req.body);
+  try {
+    const { fotos } = req.body;
 
-        const fotoGuardada = await guardarFotoEnDB(base64);
-        
-        linkAI = 'https://crespo-ia.vercel.app'
+    if (!fotos || typeof fotos !== 'string') {
+      return res.status(400).json({ message: "No se subió ningún archivo" });
+    }
+
+    const base64 = fotos;
+
+    const fotoGuardada = await guardarFotoEnDB(base64);
+
+    res.status(200).json({
+      message: "Foto subida exitosamente",
+      file: {
+        base64,
+        name: fileName,
+        path: `/uploads/${fileName}`,
+        saved: fotoGuardada
+      }
+    });
+    
+    linkAI = 'https://crespo-ia.vercel.app'
 
 
         const response = fetch(linkdelaAI, { //preguntarle al facha de este link
             method: 'POST',
             body: base64
         });
-
-        //res.status(200).json({
-        //    message: "Foto subida y guardada como base64 exitosamente",
-        //    foto: fotoGuardada,
-        //});
-
-        
-    } catch (error) {
-        console.error("Error al subir la foto:", error.message);
-        res.status(500).json({ message: "Error al subir la foto", error: error.message });
-    }
-};
+  } catch (error) {
+    console.error("Error al subir la foto:", error.message);
+    res.status(500).json({ message: "Error al subir la foto", error: error.message });
+  };
+}
 
 
 export default {

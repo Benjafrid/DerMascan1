@@ -14,8 +14,8 @@ const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, path.join(__dirname, 'uploads')); // Carpeta donde se guardarán los archivos
   },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+  filename: (_, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); //milisegundos actuales y numero random de 1 a 9 ubicados todos
     cb(null, `${uniqueSuffix}-${file.originalname}`); // Nombre único para evitar problemas 
   }
 });
@@ -39,7 +39,7 @@ export const guardarFotoEnDB = async (base64) => {
 
   try {
     await client.connect();
-
+    console.log("Datos recibidos en subirFoto:", req.body);
     const result = await client.query(
       'INSERT INTO foto (fotos) VALUES ($1) RETURNING *',
       [base64]
