@@ -48,42 +48,45 @@ const updateUsuario = async (req, res) => {
 };
 
 const subirFoto = async (req, res) => {
-
-    console.log("Datos recibidos en subirFoto:", req.body);
+  console.log("Datos recibidos en subirFoto:", req.body);
   try {
-    const { fotos } = req.body;
+      const { fotos } = req.body;
 
-    if (!fotos || typeof fotos !== 'string') {
-  return res.status(400).json({ message: "No se subió ningún archivo" });
-    }
-
-    const base64 = fotos;
-
-    const fotoGuardada = await guardarFotoEnDB(base64);
-
-    res.status(200).json({
-      message: "Foto subida exitosamente",
-      file: {
-        base64,
-        name: fileName,
-        path: `/uploads/${fileName}`,
-        saved: fotoGuardada
+      if (!fotos || typeof fotos !== 'string') {
+          return res.status(400).json({ message: "No se subió ningún archivo" });
       }
-    });
-    
-    linkAI = 'https://crespo-ia.vercel.app'
 
+      // Generar un nombre único para el archivo
+      const fileName = `foto_${Date.now()}.png`;
 
-        const response = fetch(linkdelaAI, { //preguntarle al facha de este link
-            method: 'POST',
-            body: base64
-        });
+      // Guardar la foto en la base de datos
+      const fotoGuardada = await guardarFotoEnDB(fotos, fileName);
+
+      res.status(200).json({
+          message: "Foto subida exitosamente",
+          file: {
+              base64: fotos,
+              name: fileName,
+              path: `/uploads/${fileName}`,
+              saved: fotoGuardada
+          }
+      });
+
+      // Enviar la foto a la IA
+      const linkAI = 'https://crespo-ia.vercel.app';
+      const response = await fetch(linkAI, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: fotos })
+      });
+      
+      console.log("Respuesta de la IA:", await response.json());
   } catch (error) {
-    console.error("Error al subir la foto:", error.message);
-    res.status(500).json({ message: "Error al subir la foto", error: error.message });
-  };
-}
-
+      console.error("Error al subir la foto:", error.message);
+      res.status(500).json({ message: "Error al subir la foto", error: error.message });
+  }
+};
+    
 
 export default {
     GetUsuario,

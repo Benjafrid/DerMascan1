@@ -1,11 +1,9 @@
 import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import pkg from 'pg';
-import { config } from 'dotenv';
+import { Client } from 'pg';
+import { config } from '../dbconfig.js';
 
-
-const { Client } = pkg;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -35,7 +33,7 @@ const upload = multer({
 });
 
 export const guardarFotoEnDB = async (base64) => {
-  const client = new Client(config);
+  const client = new Client(config); // Usar configuración segura
 
   try {
     await client.connect();
