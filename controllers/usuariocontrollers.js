@@ -62,17 +62,6 @@ const subirFoto = async (req, res) => {
             body: JSON.stringify({ image: fotos })
         });
 
-        // Verificar si la respuesta es JSON válida
-        let jsonResponse;
-        try {
-            jsonResponse = await response.json();
-        } catch (parseError) {
-            console.error("Error al parsear la respuesta de la IA:", parseError.message);
-            return res.status(500).json({ message: "La respuesta de la IA no es válida", error: parseError.message });
-        }
-
-        console.log("Respuesta de la IA:", jsonResponse);
-        return res.status(200).json({ message: "Foto procesada exitosamente", data: jsonResponse });
     } catch (error) {
         console.error("Error al subir la foto:", error.message);
         if (!res.headersSent) {
