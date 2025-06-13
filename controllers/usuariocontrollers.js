@@ -48,43 +48,37 @@ const updateUsuario = async (req, res) => {
 };
 
 const subirFoto = async (req, res) => {
-  console.log("Datos recibidos en subirFoto:", req.body);
-  try {
-      const { fotos } = req.body;
+    try {
+        const { fotos } = req.body;
 
-      if (!fotos || typeof fotos !== 'string') {
-          return res.status(400).json({ message: "No se subió ningún archivo" });
-      }
+        if (!fotos) {
+            return res.status(400).json({ message: 'No se proporcionó la foto' });
+        }
 
-      // Generar un nombre único para el archivo
-      const fileName = `foto_${Date.now()}.png`;
+        const linkAI = 'https://crespo-ia.vercel.app';
+        const response = await fetch(linkAI, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: fotos })
+        });
 
-      // Guardar la foto en la base de datos
-      const fotoGuardada = await guardarFotoEnDB(fotos, fileName);
+        // Verificar si la respuesta es JSON válida
+        let jsonResponse;
+        try {
+            jsonResponse = await response.json();
+        } catch (parseError) {
+            console.error("Error al parsear la respuesta de la IA:", parseError.message);
+            return res.status(500).json({ message: "La respuesta de la IA no es válida", error: parseError.message });
+        }
 
-      res.status(200).json({
-          message: "Foto subida exitosamente",
-          file: {
-              base64: fotos,
-              name: fileName,
-              path: `/uploads/${fileName}`,
-              saved: fotoGuardada
-          }
-      });
-
-      // Enviar la foto a la IA
-      const linkAI = 'https://crespo-ia.vercel.app';
-      const response = await fetch(linkAI, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: fotos })
-      });
-      
-      console.log("Respuesta de la IA:", await response.json());
-  } catch (error) {
-      console.error("Error al subir la foto:", error.message);
-      res.status(500).json({ message: "Error al subir la foto", error: error.message });
-  }
+        console.log("Respuesta de la IA:", jsonResponse);
+        return res.status(200).json({ message: "Foto procesada exitosamente", data: jsonResponse });
+    } catch (error) {
+        console.error("Error al subir la foto:", error.message);
+        if (!res.headersSent) {
+            return res.status(500).json({ message: "Error al subir la foto", error: error.message });
+        }
+    }
 };
     
 
