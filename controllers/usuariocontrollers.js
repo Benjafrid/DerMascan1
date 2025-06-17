@@ -64,7 +64,7 @@ const subirFoto = async (req, res) => {
 
     } catch (error) {
         console.error("Error al subir la foto:", error.message);
-        if (!res.headersSent) {
+        if (!res.headssersSent) {
             return res.status(500).json({ message: "Error al subir la foto", error: error.message });
         }
     }
