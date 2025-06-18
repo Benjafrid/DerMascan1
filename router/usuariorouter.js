@@ -4,6 +4,7 @@ import multer from 'multer';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import resultadocontrollers from '../controllers/resultadocontrollers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -36,9 +37,16 @@ const upload = multer({
   }
 });
 
-// Rutas
+// Rutas usuario
 router.post("/usuario/foto", usuariocontrollers.subirFoto);
 router.get("/usuario/usuario", usuariocontrollers.GetUsuario);
 router.post("/createusuario", usuariocontrollers.createUsuario);
+router.delete("/deleteusuario/:id", usuariocontrollers.deleteUsuario);
+router.put("/updateusuario/:id", usuariocontrollers.updateUsuario);
+
+//Rutas resultados
+router.get("/resultados/:id", resultadocontrollers.getResultados);
+
+
 
 export default router;

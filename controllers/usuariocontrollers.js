@@ -38,13 +38,40 @@ const createUsuario = async (req, res) => {
 };
 
 const deleteUsuario = async (req, res) => {
-
-
-};
-
+    const { id } = req.params;
+    try {
+      const usuarioEliminado = await deleteuser(id);
+      res.status(200).json({
+        message: 'Usuario eliminado correctamente',
+        data: usuarioEliminado
+      });
+    } catch (error) {
+      console.error("Error al eliminar usuario:", error.message);
+      res.status(500).json({
+        message: "Error al eliminar usuario",
+        error: error.message
+      });
+    }
+  };
+  
 const updateUsuario = async (req, res) => {
-
-};
+    const { id } = req.params;
+    const nuevosDatos = req.body;
+  
+    try {
+      const usuarioActualizado = await updateuser(id, nuevosDatos);
+      res.status(200).json({
+        message: 'Usuario actualizado correctamente',
+        data: usuarioActualizado
+      });
+    } catch (error) {
+      console.error("Error al actualizar usuario:", error.message);
+      res.status(500).json({
+        message: "Error al actualizar usuario",
+        error: error.message
+      });
+    }
+  };
 
 const subirFoto = async (req, res) => {
     try {
