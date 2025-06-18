@@ -1,5 +1,4 @@
 import usuarioservice from '../services/usuarioservice.js';
-import { guardarFotoEnDB } from '../middlewares/uploads.js';
 
 const GetUsuario = async (_, res) => {
     try {
