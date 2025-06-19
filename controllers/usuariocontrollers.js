@@ -32,7 +32,7 @@ const createUsuario = async (req, res) => {
 
         res.status(201).json({ usuario: nuevoUsuario, message: 'Usuario creado con éxito' });
     } catch (error) {
-        console.error("Error completo:", error); // Mostrará stack trace
+        console.error("Error completo:", error);
         res.status(500).json({ message: "Error al crear usuario", error: error.message });
     }
 };
@@ -81,11 +81,9 @@ const subirFoto = async (req, res) => {
             return res.status(400).json({ message: 'No se proporcionó la foto' });
         }
 
-        const linkAI = 'https://crespo-ia.vercel.app';
-        const response = await fetch(linkAI, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: fotos })
+        res.status(200).json({
+            message: 'Foto subida correctamente',
+            data: fotos
         });
 
     } catch (error) {
@@ -94,6 +92,7 @@ const subirFoto = async (req, res) => {
             return res.status(500).json({ message: "Error al subir la foto", error: error.message });
         }
     }
+
 };
     
 
