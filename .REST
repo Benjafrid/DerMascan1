@@ -23,21 +23,21 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:3001/usuarios/updateusuario/1 HTTP/1.1
+PUT http://localhost:3001/usuarios/updateusuario/10 HTTP/1.1
 Content-Type: application/json
 
 {
- "nombre": "Juan",
-    "apellido": "Pérez",
+    "nombre": "benjamin",
+    "apellido": "segal",
     "password": "123456",
-    "mail": "juanpe@gmail.com"
+    "mail": "benjasegal@gmail.com"
 }
 
 ###
-DELETE http://localhost:3001/usuarios/deleteusuario/1 HTTP/1.1
+DELETE http://localhost:3001/usuarios/deleteusuario/9 HTTP/1.1
 Content-Type: application/json
 
 ###
-GET http://localhost:3001/usuarios/resultados/1 HTTP/1.1
+GET http://localhost:3001/usuarios/resultados/10 HTTP/1.1
 
 

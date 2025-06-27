@@ -1,4 +1,4 @@
-import usuarioservice from '../services/usuarioservice.js';
+import usuarioservice, { eliminarUsuario } from '../services/usuarioservice.js';
 
 const GetUsuario = async (_, res) => {
     try {
@@ -40,7 +40,7 @@ const createUsuario = async (req, res) => {
 const deleteUsuario = async (req, res) => {
     const { id } = req.params;
     try {
-      const usuarioEliminado = await deleteuser(id);
+      const usuarioEliminado = await eliminarUsuario(id);
       res.status(200).json({
         message: 'Usuario eliminado correctamente',
         data: usuarioEliminado
@@ -54,12 +54,12 @@ const deleteUsuario = async (req, res) => {
     }
   };
   
-const updateUsuario = async (req, res) => {
+const updateUsuarios = async (req, res) => {
     const { id } = req.params;
     const nuevosDatos = req.body;
   
     try {
-      const usuarioActualizado = await updateuser(id, nuevosDatos);
+      const usuarioActualizado = await usuarioservice.updateUsuario(id, nuevosDatos);
       res.status(200).json({
         message: 'Usuario actualizado correctamente',
         data: usuarioActualizado
@@ -100,7 +100,7 @@ export default {
     GetUsuario,
     createUsuario,
     deleteUsuario,
-    updateUsuario,
+    updateUsuarios,
     createUsuario,
     subirFoto
 }

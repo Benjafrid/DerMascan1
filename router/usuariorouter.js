@@ -42,7 +42,7 @@ router.post("/usuario/foto", usuariocontrollers.subirFoto);
 router.get("/usuario/usuario", usuariocontrollers.GetUsuario);
 router.post("/createusuario", usuariocontrollers.createUsuario);
 router.delete("/deleteusuario/:id", usuariocontrollers.deleteUsuario);
-router.put("/updateusuario/:id", usuariocontrollers.updateUsuario);
+router.put("/updateusuario/:id", usuariocontrollers.updateUsuarios);
 
 //Rutas resultados
 router.get("/resultados/:id", resultadocontrollers.getResultados);
