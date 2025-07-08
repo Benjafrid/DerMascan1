@@ -17,6 +17,24 @@ const getResultados = async (req, res) => {
     }   
 }
 
+const createResultado = async (req, res) => {
+    const resultado = req.body;
+    try {
+        const nuevoResultado = await resultadosService.createResultado(resultado);
+        res.status(201).json({
+            message: 'Resultado creado correctamente',
+            data: nuevoResultado
+        });
+    } catch (error) {
+        console.error('Error al crear resultado:', error.message);
+        res.status(500).json({
+            message: "Error al crear resultado",
+            error: error.message
+        });
+    }
+}
+
 export default {
-    getResultados
+    getResultados,
+    createResultado
 }

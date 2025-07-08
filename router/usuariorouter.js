@@ -46,6 +46,7 @@ router.put("/updateusuario/:id", usuariocontrollers.updateUsuarios);
 
 //Rutas resultados
 router.get("/resultados/:id", resultadocontrollers.getResultados);
+router.post("/createresultado", resultadocontrollers.createResultado);
 
 
 

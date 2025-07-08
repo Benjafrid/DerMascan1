@@ -28,7 +28,7 @@ const createResultado = async (resultado) => {
         const query = `INSERT INTO resultado (id, id_fotos, diametro, imagen, ) VALUES ($1, $2, $3, $4) RETURNING *`;
         const values = [resultado.id_usuario, resultado.id_examen, resultado.fecha, resultado.puntaje];
         
-        const { rows } = await client.query(query, values);
+        const { rows } = await client.query (query, values);
         return rows[0];
     } catch (error) {
         console.error('Error al crear resultado:', error);
