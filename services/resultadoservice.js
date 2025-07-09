@@ -25,8 +25,8 @@ const createResultado = async (resultado) => {
     const client = new Client(config);
     try {
         await client.connect();
-        const query = `INSERT INTO resultado (id, id_fotos, diametro, imagen, resultado_generado ) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-        const values = [resultado.id_usuario, resultado.id_examen, resultado.fecha, resultado.puntaje];
+        const query = `INSERT INTO resultado (id, diametro, imagen, id_foto, resultado_general) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+        const values = [resultado.id, resultado.diametro, resultado.imagen, resultado.id_foto, resultado.resultado_general];
         
         const { rows } = await client.query (query, values);
         return rows[0];
