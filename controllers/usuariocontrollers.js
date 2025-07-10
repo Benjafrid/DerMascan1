@@ -85,6 +85,14 @@ const updateUsuarios = async (req, res) => {
         if (isNaN(diametro)) {
             return res.status(400).json({ message: 'El diámetro debe ser un número válido' });
         }
+                const response = await fetch('https://dermascan-api.onrender.com/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image: fotos })
+        });
+        
 
         res.status(200).json({
             message: 'Foto subida correctamente',
