@@ -80,20 +80,32 @@ const subirFoto = async (req, res) => {
         if (!fotos) {
             return res.status(400).json({ message: 'No se proporcionó la foto' });
         }
-
-        res.status(200).json({
-            message: 'Foto subida correctamente',
-            data: fotos
+                const response = await fetch('https://dermascan-api.onrender.com/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ image: fotos })
         });
+   const resultado = await response.json();
 
-    } catch (error) {
-        console.error("Error al subir la foto:", error.message);
-        if (!res.headssersSent) {
-            return res.status(500).json({ message: "Error al subir la foto", error: error.message });
-        }
+    // Verificamos que todo anduvo bien
+    if (!response.ok) {
+      return res.status(500).json({ message: 'Error en el análisis IA', error: resultado });
     }
 
+    // Enviamos al frontend el resultado que devolvió la IA
+    res.status(200).json({
+      message: 'Foto analizada correctamente',
+      resultadoIA: resultado
+    });
+
+  } catch (error) {
+    console.error("Error al subir la foto:", error.message);
+    res.status(500).json({ message: "Error al subir la foto", error: error.message });
+  }
 };
+
     
 
 export default {
