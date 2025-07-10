@@ -19,7 +19,8 @@ POST http://localhost:3001/usuarios/usuario/foto HTTP/1.1
 Content-Type: application/json
 
 {
-    "fotos": "base64_encoded_image_string"
+    "fotos": "base64_encoded_image_string",
+    "diametro": 5
 }
 
 ###
@@ -51,4 +52,3 @@ Content-Type: application/json
    "id": 15,
    "resultado_general": "negativo"
 }
-

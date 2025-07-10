@@ -30,17 +30,18 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: { fileSize: 10 * 1024 * 1024 } // Límite de 10 MB por archivo
-});
+}).single('foto'); // solo se sube un archivo con el campo 'foto'
 
-export const guardarFotoEnDB = async (base64) => {
-  const client = new Client(config); // Usar configuración segura
+
+export const guardarFotoEnDB = async (base64, diametro) => {
+  const client = new Client(config);
 
   try {
     await client.connect();
 
     const result = await client.query(
-      'INSERT INTO foto (fotos) VALUES ($1) RETURNING *',
-      [base64]
+      'INSERT INTO foto (fotos, diametro) VALUES ($1, $2) RETURNING *',
+      [base64, diametro]
     );
 
     return result.rows[0];

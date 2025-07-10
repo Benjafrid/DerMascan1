@@ -73,26 +73,32 @@ const updateUsuarios = async (req, res) => {
     }
   };
 
-const subirFoto = async (req, res) => {
+  const subirFoto = async (req, res) => {
     try {
-        const { fotos } = req.body;
+        const { fotos, diametro } = req.body;
 
-        if (!fotos) {
-            return res.status(400).json({ message: 'No se proporcionó la foto' });
+        if (!fotos || !diametro) {
+            return res.status(400).json({ message: 'No se proporcionó la foto o el diámetro' });
+        }
+
+        // Validar que el diámetro sea un número
+        if (isNaN(diametro)) {
+            return res.status(400).json({ message: 'El diámetro debe ser un número válido' });
         }
 
         res.status(200).json({
             message: 'Foto subida correctamente',
-            data: fotos
+            data: fotos,
+            diametro: diametro
+        
         });
 
     } catch (error) {
         console.error("Error al subir la foto:", error.message);
-        if (!res.headssersSent) {
+        if (!res.headersSent) {
             return res.status(500).json({ message: "Error al subir la foto", error: error.message });
         }
     }
-
 };
     
 
