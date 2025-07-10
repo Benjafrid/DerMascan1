@@ -87,25 +87,21 @@ const subirFoto = async (req, res) => {
             },
             body: JSON.stringify({ image: fotos })
         });
-   const resultado = await response.json();
+        
 
-    // Verificamos que todo anduvo bien
-    if (!response.ok) {
-      return res.status(500).json({ message: 'Error en el análisis IA', error: resultado });
+        res.status(200).json({
+            message: 'Foto subida correctamente',
+            data: fotos
+        });
+
+    } catch (error) {
+        console.error("Error al subir la foto:", error.message);
+        if (!res.headssersSent) {
+            return res.status(500).json({ message: "Error al subir la foto", error: error.message });
+        }
     }
 
-    // Enviamos al frontend el resultado que devolvió la IA
-    res.status(200).json({
-      message: 'Foto analizada correctamente',
-      resultadoIA: resultado
-    });
-
-  } catch (error) {
-    console.error("Error al subir la foto:", error.message);
-    res.status(500).json({ message: "Error al subir la foto", error: error.message });
-  }
 };
-
     
 
 export default {
