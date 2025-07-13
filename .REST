@@ -46,9 +46,9 @@ POST https://dermascan1.vercel.app//usuarios/createresultado HTTP/1.1
 Content-Type: application/json
 
 {
+    "id": 1,
    "diametro": "nueve",
    "color": "gris",
    "imagen": "base64_encoded_image_string",
-   "id": 15,
    "resultado_general": "negativo"
 }

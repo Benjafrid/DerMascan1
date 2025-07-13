@@ -25,10 +25,9 @@ const createResultado = async (resultado) => {
     const client = new Client(config);
     try {
         await client.connect();
-        const query = `INSERT INTO resultado (id, diametro, imagen, id_foto, resultado_general) VALUES ($1, $2, $3, $4, $5) RETURNING *`;
-        const values = [resultado.id, resultado.diametro, resultado.imagen, resultado.id_foto, resultado.resultado_general];
+        const query = [`INSERT INTO resultado (diametro, imagen, id_foto, resultado_general) VALUES ($1, $2, $3, $4) RETURNING *`]
         
-        const { rows } = await client.query (query, values);
+        const { rows } = await client.query(query, values);
         return rows[0];
     } catch (error) {
         console.error('Error al crear resultado:', error);
@@ -36,7 +35,7 @@ const createResultado = async (resultado) => {
     } finally {
         await client.end();
     }
-}
+};
 
 export default {
     obtenerResultados,
