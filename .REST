@@ -42,13 +42,12 @@ Content-Type: application/json
 GET https://dermascan1.vercel.app/usuarios/resultados/10 HTTP/1.1
 
 ###
-POST https://dermascan1.vercel.app//usuarios/createresultado HTTP/1.1
+POST https://dermascan1.vercel.app/usuarios/createresultado HTTP/1.1
 Content-Type: application/json
 
 {
-    "id": 1,
-   "diametro": "nueve",
-   "color": "gris",
+   "diametro": 11,
    "imagen": "base64_encoded_image_string",
+   "id_foto": 6, 
    "resultado_general": "negativo"
 }
