@@ -91,7 +91,7 @@ const updateUsuarios = async (req, res) => {
           const response = await fetch('https://dermascan-api.onrender.com/predict', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ image: fotos })
+              body: JSON.stringify({ image: fotos, diametro })
           });
   
           const prediction = await response.json();
