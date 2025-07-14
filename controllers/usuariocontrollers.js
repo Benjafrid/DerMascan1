@@ -95,7 +95,7 @@ const updateUsuarios = async (req, res) => {
           });
   
           const prediction = await response.json();
-  
+          
           // Guardar en la base de datos
           const guardado = await guardarFotoEnDB(fotos, diametro);
   
