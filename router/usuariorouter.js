@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import resultadocontrollers from '../controllers/resultadocontrollers.js';
+import usuarioauth from '../controllers/usuarioauth.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -41,12 +42,15 @@ const upload = multer({
 router.post("/usuario/foto", usuariocontrollers.subirFoto);
 router.get("/usuario/usuario", usuariocontrollers.GetUsuario);
 router.post("/createusuario", usuariocontrollers.createUsuario);
+router.post("/register", usuarioauth.IngresoUsuario);
+router.post("/loginusuario", usuarioauth.login);
+
 router.delete("/deleteusuario/:id", usuariocontrollers.deleteUsuario);
 router.put("/updateusuario/:id", usuariocontrollers.updateUsuarios);
 
 //Rutas resultados
 router.get("/resultados/:id", resultadocontrollers.getResultados);
-router.post("/createresultado", resultadocontrollers.createResultado);
+router.post("/createresultado/:id", resultadocontrollers.createResultado);
 
 
 

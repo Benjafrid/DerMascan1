@@ -78,6 +78,28 @@ const updateUsuario = async (nombre, apellido, mail, password, id) => {
   }
 };
 
+const GetUsuarioByEmail = async (mail) => {
+
+    const client = new Client(config);
+    await client.connect();
+
+    try {
+        const query = 'SELECT * FROM users WHERE mail = $1';
+        const { rows } = await client.query(query, [mail]);
+
+        if (rows.length === 0) {
+            return null; // No se encontró el usuario
+        }
+
+        return rows[0]; // Retorna el primer usuario encontrado
+    } catch (error) {
+        console.error('Error al obtener usuario por email:', error);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
+
 
 
 
@@ -85,5 +107,6 @@ export default {
     getAllUsuario,
     createUsuario, 
     updateUsuario,
-    eliminarUsuario
+    eliminarUsuario,
+    GetUsuarioByEmail
 }
