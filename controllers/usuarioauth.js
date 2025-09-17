@@ -1,5 +1,9 @@
 import usuarioservice from '../services/usuarioservice.js';
 import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+
+
+const secret = process.env.JWT_SECRET
 
 const IngresoUsuario = async (req, res) => {
     console.log("Request Body:", req.body);
