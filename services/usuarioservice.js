@@ -1,6 +1,9 @@
 import {config} from '../dbconfig.js';
 import pkg from 'pg';
 const { Client } = pkg;
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const getAllUsuario = async () => {
     const client = new Client(config); 
