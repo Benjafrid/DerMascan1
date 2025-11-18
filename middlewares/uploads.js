@@ -33,15 +33,35 @@ const upload = multer({
 }).single('foto'); // solo se sube un archivo con el campo 'foto'
 
 
-export const guardarFotoEnDB = async (base64, diametro) => {
+// export const guardarFotoEnDB = async (base64, diametro) => {
+//   const client = new Client(config);
+
+//   try {
+//     await client.connect();
+
+//     const result = await client.query(
+//       'INSERT INTO foto (fotos, diametro) VALUES ($1, $2) RETURNING *',
+//       [base64, diametro]
+//     );
+
+//     return result.rows[0];
+//   } catch (error) {
+//     console.error('Error al guardar la foto en la base de datos:', error.message);
+//     throw error;
+//   } finally {
+//     await client.end();
+//   }
+// };
+
+export const guardarFotoEnDB = async (base64) => {
   const client = new Client(config);
 
   try {
     await client.connect();
 
     const result = await client.query(
-      'INSERT INTO foto (fotos, diametro) VALUES ($1, $2) RETURNING *',
-      [base64, diametro]
+      'INSERT INTO foto (fotos) VALUES ($1) RETURNING *',
+      [base64]
     );
 
     return result.rows[0];
@@ -52,6 +72,7 @@ export const guardarFotoEnDB = async (base64, diametro) => {
     await client.end();
   }
 };
+
 
 
 export default upload;

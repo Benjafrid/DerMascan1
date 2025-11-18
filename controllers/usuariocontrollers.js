@@ -75,46 +75,79 @@ const updateUsuarios = async (req, res) => {
   };
 
 
-  const subirFoto = async (req, res) => {
-      try {
-          const { fotos, diametro } = req.body;
+// //  const subirFoto = async (req, res) => {
+//       try {
+//           const { fotos, diametro } = req.body;
   
-          if (!fotos || !diametro) {
-              return res.status(400).json({ message: 'No se proporcionó la foto o el diámetro' });
-          }
+//           if (!fotos || !diametro) {
+//               return res.status(400).json({ message: 'No se proporcionó la foto o el diámetro' });
+//           }
   
-          if (isNaN(diametro)) {
-              return res.status(400).json({ message: 'El diámetro debe ser un número válido' });
-          }
+//           if (isNaN(diametro)) {
+//               return res.status(400).json({ message: 'El diámetro debe ser un número válido' });
+//           }
   
-          // Llamada al modelo de IA (Render API)
-          const response = await fetch('https://dermascan-api.onrender.com/predict', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ image: fotos, diametro })
-          });
+//           // Llamada al modelo de IA (Render API)
+//           const response = await fetch('https://dermascan-api.onrender.com/predict', {
+//               method: 'POST',
+//               headers: { 'Content-Type': 'application/json' },
+//               body: JSON.stringify({ image: fotos, diametro })
+//           });
   
-          const prediction = await response.json();
+//           const prediction = await response.json();
           
-          // Guardar en la base de datos
-          const guardado = await guardarFotoEnDB(fotos, diametro);
+//           // Guardar en la base de datos
+//           const guardado = await guardarFotoEnDB(fotos, diametro);
   
-          res.status(200).json({
-              message: 'Foto subida y guardada correctamente',
-              prediction,
-              saved: guardado
-          });
+//           res.status(200).json({
+//               message: 'Foto subida y guardada correctamente',
+//               prediction,
+//               saved: guardado
+//           });
   
-      } catch (error) {
-          console.error("Error al subir la foto:", error.message);
-          if (!res.headersSent) {
-              return res.status(500).json({ message: "Error al subir la foto", error: error.message });
-          }
-      }
-  };
+//       } catch (error) {
+//           console.error("Error al subir la foto:", error.message);
+//           if (!res.headersSent) {
+//               return res.status(500).json({ message: "Error al subir la foto", error: error.message });
+//           }
+//       }
+//   };
 
   
-    
+const subirFoto = async (req, res) => {
+    try {
+        const { fotos } = req.body;
+
+        if (!fotos) {
+            return res.status(400).json({ message: 'No se proporcionó la foto' });
+        }
+
+        // Llamada al modelo de IA (Render API)
+        const response = await fetch('https://dermascan-api.onrender.com/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ image: fotos })  // ⬅️ SOLO imagen
+        });
+
+        const prediction = await response.json();
+
+        // Guardar en la base de datos (se quita diámetro)
+        const guardado = await guardarFotoEnDB(fotos);  // ⬅️ MANDAR SOLO FOTO
+
+        res.status(200).json({
+            message: 'Foto subida y guardada correctamente',
+            prediction,
+            saved: guardado
+        });
+
+    } catch (error) {
+        console.error("Error al subir la foto:", error.message);
+        if (!res.headersSent) {
+            return res.status(500).json({ message: "Error al subir la foto", error: error.message });
+        }
+    }
+};
+
 
 export default {
     GetUsuario,
