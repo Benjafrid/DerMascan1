@@ -118,21 +118,25 @@ const subirFoto = async (req, res) => {
     try {
         const { fotos } = req.body;
 
+        console.log("📸 FOTO RECIBIDA EN BACKEND:", fotos?.substring(0, 50) + "...");
+
         if (!fotos) {
             return res.status(400).json({ message: 'No se proporcionó la foto' });
         }
 
-        // Llamada al modelo de IA (Render API)
+        console.log("📤 ENVIANDO A IA:", JSON.stringify({ image: fotos }).substring(0, 80) + "...");
+
         const response = await fetch('https://dermascan-api.onrender.com/predict', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ image: fotos })  // ⬅️ SOLO imagen
+            body: JSON.stringify({ image: fotos })
         });
 
         const prediction = await response.json();
 
-        // Guardar en la base de datos (se quita diámetro)
-        const guardado = await guardarFotoEnDB(fotos);  // ⬅️ MANDAR SOLO FOTO
+        console.log("🤖 RESPUESTA DE IA:", prediction);
+
+        const guardado = await guardarFotoEnDB(fotos);
 
         res.status(200).json({
             message: 'Foto subida y guardada correctamente',
@@ -141,12 +145,13 @@ const subirFoto = async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Error al subir la foto:", error.message);
+        console.error("❌ ERROR AL SUBIR FOTO:", error);
         if (!res.headersSent) {
             return res.status(500).json({ message: "Error al subir la foto", error: error.message });
         }
     }
 };
+
 
 
 export default {
